@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "token.expire.seconds",
+      "type": "java.lang.String",
+      "description": "Description for token.expire.seconds."
+  }
+] }

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../layui/css/layui.css">
+</head>
+<body>
+</pre>
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+    <legend>K-Means</legend>
+
+
+<pre class="layui-code" lay-title="Python" lay-skin="notepad">
+from sklearn.cluster import KMeans
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn import preprocessing
+from sklearn.decomposition import PCA
+    </br>
+loan_data=pd.DataFrame(pd.read_csv('C:/Users/lenovo/Desktop/applestore(1).csv',header=0))
+    </br>
+s=loan_data[["size_bytes","price","rating_count_tot","rating_count_ver","user_rating","user_rating_ver","sup_devices.num","ipadSc_urls.num"]]
+    </br>
+X=np.array(s)
+    </br>
+min_max_scaler=preprocessing.MinMaxScaler()
+X_minmax=min_max_scaler.fit_transform(X)
+X_minmax=X_minmax.tolist()
+    </br>
+estimator=PCA(n_components=2)
+
+pca_X_train = estimator.fit_transform(X_minmax)
+    </br>
+clf_KMeans=KMeans(n_clusters=2)
+
+cluster=clf_KMeans.fit_predict(pca_X_train)
+x= [i[0] for i in pca_X_train]
+y= [i[1] for i in pca_X_train]
+
+plt.figure()
+
+plt.scatter(x,y,c=cluster)
+
+plt.title("K-means test")
+
+plt.show()
+
+};
+      </pre>
+</fieldset>
+<fieldset class="layui-elem-field" style="border: none" >
+
+    <div class="layui-field-box" style="border: none" >
+        <hr class="layui-bg-orange">
+        <img src="../../img/apppage/K-Mean.png" width="550" height="400">
+        <hr class="layui-bg-green">
+    </div>
+</fieldset>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+    <legend>过程及结果解析</legend>
+<pre class="layui-code" lay-title="Text" lay-skin="notepad">
+    K-Means算法的具体过程
+    1.通过pandas包解析读取csv文件
+    2.选取相关的列
+    3.由于选取的列数大于2 所以应当进行数据pca降维
+    4.minmax方法进行降维后，可以得到二维图像
+    5.由于是以一款app的好坏作为评价标准，所以簇的个数选取为2
+    6.创建模型对整合处理过后的数据集的K-Means模型进行训练
+    7.展示训练结果
+    结果反馈出的信息
+    通过以一款app的好坏进行分类，我们得到的两个簇，若把他们划分为成功的app与不成功的app，
+    通过和源数据进行对比我们可以发现用户等级计数越大，支持的设备数量越多，
+    显示的屏幕截图数量越多，用户评分越高的都会分布在优秀的app中，反之这些列中的数值都较低的，则更多地出现在
+    较差的app那一个簇中，初次之外，作为训练模型的参数：价格，对于这两个簇似乎没有什么影响，
+    也就是说价格的高低，是否免费不会太影响一款app是否成为一款优秀的app.
+
+</pre>
+</fieldset>
+
+
+
+
+<script type="text/javascript" src="../../layui/layui.js"></script>
+
+<script src="http://cdn.highcharts.com.cn/highcharts/8.2.2/highcharts.js"></script>
+
+
+<script src="http://cdn.highcharts.com.cn/highstock/8.2.2/highstock.js"></script>
+
+
+<script src="http://cdn.highcharts.com.cn/highmaps/8.2.2/highmaps.js"></script>
+
+
+<script src="http://cdn.highcharts.com.cn/gantt/8.2.2/highcharts-gantt.js"></script>
+
+
+<script>
+    layui.use('code', function(){
+
+        layui.code();
+    });
+
+    // Build the chart
+    Highcharts.chart('container', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'AppStore应用占比市场份额'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: 'Brands',
+            colorByPoint: true,
+            data: [{
+                name: 'Games',
+                y: 53.66,
+                sliced: true,
+                selected: true
+            }, {
+                name: 'Others',
+                y: 27.76
+            }, {
+                name: 'Entertainment',
+                y: 7.43
+            }, {
+                name: 'Education',
+                y: 6.29
+            }, {
+                name: 'Photo & Video',
+                y: 4.85
+            }]
+        }]
+    });
+
+    var colors = Highcharts.getOptions().colors,
+        categories = [
+            "Game",
+            "Others",
+            "Photo & Video",
+            "Education",
+            "Entertainment",
+        ],
+        data = [
+            {
+                "y": 53.66,
+                "color": colors[2],
+                "drilldown": {
+                    "name": "Chrome",
+                    "categories": [
+                        "Free",
+                        "Paid",
+                    ],
+                    "data": [
+                        31.36,
+                        22.30
+                    ]
+                }
+            },
+            {
+                "y": 27.76,
+                "color": colors[1],
+                "drilldown": {
+                    "name": "Firefox",
+                    "categories": [
+                        "Free",
+                        "Paid"
+                    ],
+                    "data": [
+                        16.20,
+                        11.56
+                    ]
+                }
+            },
+            {
+                "y": 4.85,
+                "color": colors[0],
+                "drilldown": {
+                    "name": "Internet Explorer",
+                    "categories": [
+                        "Free",
+                        "Paid"
+                    ],
+                    "data": [
+                        2.32,
+                        2.53
+                    ]
+                }
+            },
+            {
+                "y": 6.29,
+                "color": colors[3],
+                "drilldown": {
+                    "name": "Safari",
+                    "categories": [
+                        "Free",
+                        "Paid"
+                    ],
+                    "data": [
+                        1.83,
+                        4.46
+                    ]
+                }
+            },
+            {
+                "y": 7.43,
+                "color": colors[5],
+                "drilldown": {
+                    "name": "Edge",
+                    "categories": [
+                        "Paid",
+                        "Free"
+                    ],
+                    "data": [
+                        2.79,
+                        4.64
+                    ]
+                }
+            },
+        ],
+        browserData = [],
+        versionsData = [],
+        i,
+        j,
+        dataLen = data.length,
+        drillDataLen,
+        brightness;
+    // Build the data arrays
+    for (i = 0; i < dataLen; i += 1) {
+        // add browser data
+        browserData.push({
+            name: categories[i],
+            y: data[i].y,
+            color: data[i].color
+        });
+        // add version data
+        drillDataLen = data[i].drilldown.data.length;
+        for (j = 0; j < drillDataLen; j += 1) {
+            brightness = 0.2 - (j / drillDataLen) / 5;
+            versionsData.push({
+                name: data[i].drilldown.categories[j],
+                y: data[i].drilldown.data[j],
+                color: Highcharts.Color(data[i].color).brighten(brightness).get()
+            });
+        }
+    }
+    // Create the chart
+    Highcharts.chart('container2', {
+        chart: {
+            type: 'pie'
+        },
+        title: {
+            text: 'AppStore数据详细分类'
+        },
+        yAxis: {
+            title: {
+                text: 'Total percent market share'
+            }
+        },
+        plotOptions: {
+            pie: {
+                shadow: false,
+                center: ['50%', '50%']
+            }
+        },
+        tooltip: {
+            valueSuffix: '%'
+        },
+        series: [{
+            name: 'Browsers',
+            data: browserData,
+            size: '60%',
+            dataLabels: {
+                formatter: function () {
+                    return this.y > 5 ? this.point.name : null;
+                },
+                color: '#ffffff',
+                distance: -30
+            }
+        }, {
+            name: 'Versions',
+            data: versionsData,
+            size: '80%',
+            innerSize: '60%',
+            dataLabels: {
+                formatter: function () {
+                    // display only if larger than 1
+                    return this.y > 1 ? '<b>' + this.point.name + ':</b> ' +
+                        this.y + '%' : null;
+                }
+            },
+            id: 'versions'
+        }],
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 400
+                },
+                chartOptions: {
+                    series: [{
+                        id: 'versions',
+                        dataLabels: {
+                            enabled: false
+                        }
+                    }]
+                }
+            }]
+        }
+    });
+</script>
+
+</body>
+</html>

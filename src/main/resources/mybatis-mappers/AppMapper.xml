@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boot.security.server.dao.AppDao">
+
+    <select id="desc" resultType="com.boot.security.server.dto.HighestDataPO">
+        select appdata2.*,applestore_description.description from appdata2
+        inner  join applestore_description
+        on appdata2.Aid=applestore_description.Aid
+        where appdata2.price>0
+        order by price desc
+        limit #{Offset},#{Limit};
+    </select>
+
+<!--    <resultMap id="result" type="com.boot.security.server.dto.AppDataPO">-->
+<!--        <result column="sup_devices_num" jdbcType="varchar" property="supDevicesNum"></result>-->
+<!--        <result column="ipadSc_urls_num" jdbcType="int" property="ipadScUrlsNum"></result>-->
+<!--        <result column="lang_num" jdbcType="int" property="langNum"></result>-->
+<!--    </resultMap>-->
+<!--    <select id="selectAll" resultMap="result">-->
+<!--        select * from appdata2;-->
+<!--    </select>-->
+</mapper>
