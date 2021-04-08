@@ -47,6 +47,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 		argumentResolvers.add(tableHandlerMethodArgumentResolver());
+		System.out.println("ssd");
 	}
 
 	/**
