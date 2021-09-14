@@ -1,4 +1,4 @@
-# boot-security 0917
+# boot-security 0918
 我对代码进行了修改 升级到了0.2.0 这是一个测试 用于熟练掌握git的使用
 此项目源码采用前后端分离方式，spring boot开发后端，使用spring security进行权限控制,layui、bootstrap、jquery、html为前端,基于json进行交互,接口完全采用Restful的风格，实现按钮级权限控制，可以作为开发项目的脚手架，做为基础项目。
 
